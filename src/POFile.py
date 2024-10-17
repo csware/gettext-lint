@@ -37,7 +37,7 @@ class POFile:
         self.spellCommand = 'cat'
 
     def getRatio(self):
-        if self.translated == None: return None   
+        if self.translated is None: return None
         total = self.translated
         if self.fuzzy: total = total + self.fuzzy
         if self.untranslated: total = total + self.untranslated
@@ -52,10 +52,10 @@ class POFile:
         process = subprocess.Popen(command, shell = True, stdout = subprocess.PIPE, stderr = subprocess.PIPE, text = True)
         output, _ = process.communicate()
         self.translated = self.__vextract(output, " translated")
-        if self.translated == None: self.validateError = output
+        if self.translated is None: self.validateError = output
         self.fuzzy = self.__vextract(output, " fuzzy")
         self.untranslated = self.__vextract(output, " untranslated")
-        return self.validateError == None
+        return self.validateError is None
     
     def __vextract(self, output, token):
         end = output.find(token)
@@ -74,7 +74,7 @@ class POFile:
 
     def parse(self):
         lines = self.read_lines()
-        if lines == None: return 0        
+        if lines is None: return 0
         current = ""
         msgid = ""
         mode = 0
@@ -116,14 +116,14 @@ class POFile:
 
     def replace(self, number, text, removeFuzzy, output):
         prepare = self.prepare_replace(number)
-        if prepare == None: return 0
-        if output != None:
+        if prepare is None: return 0
+        if output is not None:
             self.execute_replace(prepare, text, removeFuzzy, output)
         return 1
 
     def prepare_replace(self, number):
         lines = self.read_lines()
-        if lines == None: return None
+        if lines is None: return None
         
         line = 0
         message = 0        
@@ -154,7 +154,7 @@ class POFile:
         line = 0
         for i in lines[:headline - 1]:
             line = line + 1
-            if removeFuzzy and fuzzyline != None and fuzzyline == line:
+            if removeFuzzy and fuzzyline is not None and fuzzyline == line:
                 i = i.replace(', fuzzy', '')
                 if i != '#\n': output.write(i)
             else:
@@ -171,11 +171,11 @@ class POFile:
 
     def append_header_string(self, line, key, list):
         x = self.get_header_string(line, key)
-        if x != None: list.append(x)
+        if x is not None: list.append(x)
 
     def append_header_strings(self, line, key, list):
         x = self.get_header_string(line, key)
-        if x != None:
+        if x is not None:
             for i in x.split(" "): list.append(i)
 
     def get_header_string(self, line, key, current = None):
@@ -185,7 +185,7 @@ class POFile:
 
     def get_header_int(self, line, key, current = None):
         x = self.get_header_string(line, key)
-        if x == None: return current
+        if x is None: return current
         try:
             return int(x)
         except:
@@ -214,7 +214,7 @@ class POFile:
     def toWordList(self, s):
         s = s.replace('\\n', ' ').replace('\\t', ' ').replace(',', ' ').replace('.', ' ').replace('?', ' ').replace('!', ' ').replace(':', ' ').replace(';', ' ').replace('(', ' ').replace(')', ' ').replace('/', ' ').replace('&&', ' ').replace('&', '').replace('</', ' ').replace('<', ' ').replace('>', ' ').replace('\\"', " ")
         l = s.split()
-        if l == None or len(l) < 1: return l
+        if l is None or len(l) < 1: return l
         ret = {}
         for i in l: ret[i.lower()] = i.lower()
         return ret.values()
@@ -304,11 +304,11 @@ class POFile:
                     msgid = msgid.replace(i[0], i[1])
                 cmsgid = map.get(msgid)
                 add = (self.filename, message)
-                if cmsgid == None:
+                if cmsgid is None:
                     map[msgid] = { msgstr: [add,] }
                 else:
                     cmsgstr = cmsgid.get(msgstr)
-                    if cmsgstr == None:
+                    if cmsgstr is None:
                         cmsgid[msgstr] = [add,]
                     else:
                         cmsgstr.append(add)
@@ -423,7 +423,7 @@ class POFile:
                     index, ctx = self.searchWordInText(text, s,
                                                        context, index + 1)
                     if index < 0: break
-                    if ctx != None: r.append((l, m, ctx))
+                    if ctx is not None: r.append((l, m, ctx))
         return r
 
     def getCleanMsgstr(self):

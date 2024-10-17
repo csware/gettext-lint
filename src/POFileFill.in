@@ -54,7 +54,7 @@ for i in target.data:
             newmsgstr = list(results.keys())[0]
             po = POFile(target.filename)
             lines = po.prepare_replace(message)
-            if lines != None:
+            if lines is not None:
                 file = open(target.filename, 'w')
                 po.execute_replace(lines, newmsgstr, 1, file)
                 file.close()

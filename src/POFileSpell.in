@@ -72,7 +72,7 @@ if len(args) < 1: usage()
 
 def spelling(args, overview, dict, dictfiles, spellCommand):
     tagname = "po-file-spell"
-    if overview != None: tagname = "po-file-spell-overview"
+    if overview is not None: tagname = "po-file-spell-overview"
     out = Output(tagname)
     for filename in args:
         po = POFile(filename)
@@ -83,7 +83,7 @@ def spelling(args, overview, dict, dictfiles, spellCommand):
             if spellCommand: po.spellCommand = spellCommand
             po.spell(dict)
             if len(po.spellErrors) > 0:
-                if overview != None:
+                if overview is not None:
                     for e in po.spellErrors:
                         ce = 0
                         if e in overview: ce = overview[e]
@@ -137,7 +137,7 @@ def interactiveSpelling(args, dict, dictfiles, spellCommand):
                             regexp = re.compile('\\b' + e + '\\b')
                             rrr = regexp.sub(replace, podata[3])
                             lines = po.prepare_replace(message)
-                            if lines != None:
+                            if lines is not None:
                                 file = open(filename, 'w')
                                 po.execute_replace(lines, rrr, 1, file,
                                                    breaknewlines = 1)
@@ -199,7 +199,7 @@ def addSpellExtra(po, filename, e):
             li = li + 1
 
     lines = po.prepare_replace(1)
-    if lines != None:
+    if lines is not None:
         file = open(filename, 'w')
         po.execute_replace(lines, header, 1, file, breaknewlines = 1)
         file.close()

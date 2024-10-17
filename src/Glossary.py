@@ -23,7 +23,7 @@ class Glossary:
             except KeyError:
                 self.dict[key] = []
             for value in values:
-                if value.text != None:
+                if value.text is not None:
                     self.dict[key].append(value.text)
 
     def __getitem__(self, k):

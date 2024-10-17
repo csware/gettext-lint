@@ -5,7 +5,8 @@
 #
 # Pedro Morais <morais@kde.org>
 # José Nuno Pires <jncp@netcabo.pt>
-# (c) Copyright 2003, 2004
+# Sven Strickroth <email@cs-ware.de>
+# (c) Copyright 2003, 2004, 2024
 # Distributable under the terms of the GPL - see COPYING
 
 import sys
@@ -66,7 +67,7 @@ else:
             po.ignoreFuzzy = ignoreFuzzy
             po.parseHeader()
             po.check()
-            if po.allowCount == None: po.allowCount = 0
+            if po.allowCount is None: po.allowCount = 0
             if len(po.errors) != po.allowCount:
                 out.opentag('file',
                             {'name': filename, 'allow': str(po.allowCount)})

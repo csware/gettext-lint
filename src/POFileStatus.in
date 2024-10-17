@@ -65,7 +65,7 @@ def findfiles(dir, ext, exclude):
                     if name.find(j) >= 0:
                         name = None
                         continue
-                if name != None: arg[0][name] = name
+                if name is not None: arg[0][name] = name
     import os
     map = {}
     if os.path.isdir(dir): os.path.walk(dir, walkfunc, (map, ext, dir))
@@ -80,7 +80,7 @@ def attrname(filename, breakpath, attr):
             cindex = cindex + 1
 
 potfiles = None
-if potdir != None: potfiles = findfiles(potdir, '.pot', potexclude)
+if potdir is not None: potfiles = findfiles(potdir, '.pot', potexclude)
 
 out = Output("po-file-status")
 for filename in args:
