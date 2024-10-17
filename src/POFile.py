@@ -56,7 +56,7 @@ class POFile:
         self.fuzzy = self.__vextract(output, " fuzzy")
         self.untranslated = self.__vextract(output, " untranslated")
         return self.validateError is None
-    
+
     def __vextract(self, output, token):
         end = output.find(token)
         if end == -1: return None
@@ -98,7 +98,7 @@ class POFile:
                     self.data.append((msgidline, message, msgid, current,
                                       mode1fuzzy))
                 current = ""
-                mode = 1                
+                mode = 1
                 msgidline = line
                 message = message + 1
                 mode1fuzzy = fuzzy
@@ -124,13 +124,13 @@ class POFile:
     def prepare_replace(self, number):
         lines = self.read_lines()
         if lines is None: return None
-        
+
         line = 0
-        message = 0        
+        message = 0
         headline = None
         fuzzyline = None
         fuzzylinetmp = None
-        
+
         for i in lines:
             line = line + 1
             l = i.strip()
@@ -147,7 +147,7 @@ class POFile:
                 if message == number: headline = line
         if not(headline): return None
         return (headline, line + 1, lines, fuzzyline)
-        
+
     def execute_replace(self, prepare, text, removeFuzzy, output,
                         breaknewlines = 0):
         headline, tailline, lines, fuzzyline = prepare
@@ -190,7 +190,7 @@ class POFile:
             return int(x)
         except:
             return current
-            
+
     def parseHeader(self):
         if len(self.data) > 0:
             headerLines = self.data[0][3].split('\\n')
@@ -226,7 +226,7 @@ class POFile:
             if len(si) == 0: continue
             ss = self.toWordList(s)
             if len(ss) == 0: continue
-            
+
             for word in si:
                 if self.trueStringLen(word) > minLength:
                     countMap = {}
@@ -465,7 +465,7 @@ class POTFile(POFile):
 
     def __init__(self, filename):
         POFile.__init__(self, filename)
-    
+
     def check(self):
         self.errors = []
         for l, m, i, s, fuzzy in self.data:

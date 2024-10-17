@@ -21,7 +21,7 @@ class Equivalent:
             return lines
         except IOError:
             return None
-        
+
     def parse(self, filename, strip = ''):
         lines = self.read_lines(filename)
         if lines is None: return 0

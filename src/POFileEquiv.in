@@ -63,7 +63,7 @@ for word, matches in equiv.iteritems():
     if localmax < line: continue
     out.opentag('entry')
     out.opentag('original', body = word, close = 1)
-    for m, c in items[:max_words]: 
+    for m, c in items[:max_words]:
         if c < line: break
         out.opentag('translation', { 'count': str(c) },
                     body = m, close = 1)

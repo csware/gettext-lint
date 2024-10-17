@@ -27,7 +27,7 @@ class Output:
         if body:
             self.output.write(escape(body))
             if close: self.output.write('</%s>\n' % tag)
-    
+
     def closetag(self):
         self.output.write('%s</%s>\n' % (' ' * 2 * (len(self.current)),
                                          self.current[-1]))
