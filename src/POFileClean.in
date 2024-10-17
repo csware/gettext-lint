@@ -42,8 +42,8 @@ if target.parse() == 0:
 for i in target.data:
     line, message, msgid, msgstr, fuzzy = i
     if (msgid == msgstr):
-	newmsgstr = ""
-	po = POFile(target.filename)
+        newmsgstr = ""
+        po = POFile(target.filename)
         lines = po.prepare_replace(message)
         if lines != None:
             file = open(target.filename, 'w')
