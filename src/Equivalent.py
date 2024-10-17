@@ -4,7 +4,8 @@
 #
 # Pedro Morais <morais@kde.org>
 # José Nuno Pires <jncp@netcabo.pt>
-# (c) Copyright 2003, 2004
+# Sven Strickroth <email@cs-ware.de>
+# (c) Copyright 2003, 2004, 2024
 # Distributable under the terms of the GPL - see COPYING
 
 class Equivalent:
@@ -42,7 +43,7 @@ class Equivalent:
         return 1
 
     def check(self, msgid, result):
-        if self.map == None or not self.map.has_key(msgid): return 0
+        if self.map is None or not msgid in self.map: return 0
         eq = self.map[msgid]
         for i in result:
             if not(i in eq): return 0

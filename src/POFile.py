@@ -5,7 +5,8 @@
 # Pedro Morais <morais@kde.org>
 # José Nuno Pires <jncp@netcabo.pt>
 # João Miguel Neves <joao@silvaneves.org>
-# (c) Copyright 2003, 2004
+# Sven Strickroth <email@cs-ware.de>
+# (c) Copyright 2003, 2004, 2024
 # Distributable under the terms of the GPL - see COPYING
 
 import string
@@ -46,9 +47,10 @@ class POFile:
         return self.translated and not(self.fuzzy) and not(self.untranslated)
 
     def validate(self):
-        import os
+        import subprocess
         command = "msgfmt --statistics -o /dev/null %s 2>&1" % self.filename
-        output = os.popen(command).read()
+        process = subprocess.Popen(command, shell = True, stdout = subprocess.PIPE, stderr = subprocess.PIPE, text = True)
+        output, _ = process.communicate()
         self.translated = self.__vextract(output, " translated")
         if self.translated == None: self.validateError = output
         self.fuzzy = self.__vextract(output, " fuzzy")
@@ -228,11 +230,11 @@ class POFile:
             for word in si:
                 if self.trueStringLen(word) > minLength:
                     countMap = {}
-                    if equiv.has_key(word): countMap = equiv[word]
+                    if word in equiv: countMap = equiv[word]
                     for corr in ss:
                         if self.trueStringLen(corr) > minLength:
                             count = 0
-                            if countMap.has_key(corr): count = countMap[corr]
+                            if corr in countMap: count = countMap[corr]
                             countMap[corr] = count + 1
                     equiv[word] = countMap
         return equiv
@@ -241,26 +243,28 @@ class POFile:
         self.read_lines_buffer = child_out.readlines()
         return 0
 
-    def spell(self, dict = {}):
-        from popen2 import popen4
+    def spell(self, dict = None):
+        import subprocess
         from threading import Thread
-        child_out, child_in = popen4(self.spellCommand)
+        if dict is None:
+            dict = {}
+        process = subprocess.Popen(self.spellCommand, stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE, text = True, shell = True)
         read_lines_thread = Thread(target=self.__read_lines_thread,
-                                   args=(child_out,));
+                                   args=(process.stdout,));
         read_lines_thread.start()
         x = self.getCleanMsgstr()
-        child_in.write(x)
-        child_in.close()
+        process.stdin.write(x)
+        process.stdin.close()
         read_lines_thread.join()
         words = self.read_lines_buffer
-        child_out.close()
+        process.stdout.close()
         wse = dict.copy()
         for word in self.spellExtra: wse[word] = word
         ws = {}
         for word in words:
-            word = word[:-1]
-            if not wse.has_key(word): ws[word] = word
-        self.spellErrors = ws.keys()
+            word = word.strip()
+            if word not in wse: ws[word] = word
+        self.spellErrors = list(ws.keys())
         return 1
 
     def glossary(self, glossary):

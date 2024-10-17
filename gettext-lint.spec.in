@@ -8,7 +8,7 @@ URL: http://gettext-lint.sourceforge.net/
 Source: http://dl.sourceforge.net/gettext-lint/gettext-lint-%version.tar.gz
 Group: Development/Tools
 Packager: Pedro Morais <morais@kde.org>
-Requires: python >= 2.0 gettext
+Requires: python >= 3.9 gettext
 BuildArchitectures: noarch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 

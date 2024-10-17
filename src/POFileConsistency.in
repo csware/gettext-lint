@@ -5,7 +5,8 @@
 # 
 # Pedro Morais <morais@kde.org>
 # José Nuno Pires <jncp@netcabo.pt>
-# (c) Copyright 2003, 2004
+# Sven Strickroth <email@cs-ware.de>
+# (c) Copyright 2003, 2004, 2024
 # Distributable under the terms of the GPL - see COPYING
 
 import sys
@@ -126,15 +127,15 @@ def interactiveConsistency(map, equivalent):
         if len(msgid) < min_size: continue
         if not inconsistent(msgid, result, equivalent): continue
         current = current + 1
-        print '*** msgid (%d/%d):\n%s' % (current, total, msgid)
+        print('*** msgid (%d/%d):\n%s' % (current, total, msgid))
         print
         c = 0
         for msgstr, filenames in result.iteritems():
             c = c + 1
-            print '*** msgstr %d in' % c,
-            for fx, message in filenames: print fx,
-            print ':'
-            print msgstr
+            print('*** msgstr %d in' % c),
+            for fx, message in filenames: print(fx),
+            print(':')
+            print(msgstr)
         print
         addtofilemessage = ''
         if len(equivalentfiles):
@@ -143,14 +144,14 @@ def interactiveConsistency(map, equivalent):
                       "'l' to add to each file local ignore list, "
                       "other to continue: " % (c, addtofilemessage))
         if len(equivalentfiles) and x == 'a':
-            print '+++ Adding to file %s' % equivalentfiles[0]
-            print '+++'
+            print('+++ Adding to file %s' % equivalentfiles[0])
+            print('+++')
             efile = open(equivalentfiles[0], 'a')
-            print '+++ %s' % msgid
+            print('+++ %s' % msgid)
             efile.write('\n')
             efile.write('%s\n' % msgid)
             for msgstr, filenames in result.iteritems():
-                print '+++ %s' % msgstr
+                print('+++ %s' % msgstr)
                 efile.write('%s\n' % msgstr)
             print
             efile.close()
@@ -162,10 +163,10 @@ def interactiveConsistency(map, equivalent):
                     po.parse()
                     po.parseHeader()
                     if addIgnoreConsistency(po, msgid):
-                        print '+++ Add ignore consistency to %s - %s' % (
-                            fx, msgid)
+                        print('+++ Add ignore consistency to %s - %s' % (
+                            fx, msgid))
                     else:
-                        print '+++ Error adding ignore consistency to %s' % fx
+                        print('+++ Error adding ignore consistency to %s' % fx)
             continue
         n = -1
         try:
@@ -188,8 +189,8 @@ def interactiveConsistency(map, equivalent):
                 c = c + 1
                 if c != n:
                     for fx, message in filenames:
-                        print '+++ Fix consistency in %s,%d,%s' % (
-                            fx, message, newmsgstr)
+                        print('+++ Fix consistency in %s,%d,%s' % (
+                            fx, message, newmsgstr))
                         po = POFile(fx)
                         po.parse()
                         po.parseHeader()

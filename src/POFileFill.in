@@ -5,7 +5,8 @@
 # 
 # Pedro Morais <morais@kde.org>
 # José Nuno Pires <jncp@netcabo.pt>
-# (c) Copyright 2003, 2004
+# Sven Strickroth <email@cs-ware.de>
+# (c) Copyright 2003, 2004, 2024
 # Distributable under the terms of the GPL - see COPYING
 
 import sys
@@ -47,10 +48,10 @@ for filename in args[1:]:
 
 for i in target.data:
     line, message, msgid, msgstr, fuzzy = i
-    if (len(msgstr) == 0 or fuzzy) and map.has_key(msgid):
+    if (len(msgstr) == 0 or fuzzy) and msgid in map:
         results = map[msgid]
         if len(results) == 1:
-            newmsgstr = results.keys()[0]
+            newmsgstr = list(results.keys())[0]
             po = POFile(target.filename)
             lines = po.prepare_replace(message)
             if lines != None:

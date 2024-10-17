@@ -5,7 +5,8 @@
 #
 # Pedro Morais <morais@kde.org>
 # José Nuno Pires <jncp@netcabo.pt>
-# (c) Copyright 2003, 2004
+# Sven Strickroth <email@cs-ware.de>
+# (c) Copyright 2003, 2004, 2024
 # Distributable under the terms of the GPL - see COPYING
 
 import sys
@@ -87,7 +88,7 @@ for filename in args:
     if po.validate():
         po.obsolete = 0
         if potfiles:
-            if not potfiles.has_key(filename + 't'):
+            if not (filename + 't') in potfiles:
                 po.obsolete = 1
             else:
                 del potfiles[filename + 't']

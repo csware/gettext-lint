@@ -6,7 +6,8 @@
 # Pedro Morais <morais@kde.org>
 # José Nuno Pires <jncp@netcabo.pt>
 # João Neves <joao@silvanaves.org>
-# (c) Copyright 2003, 2004
+# Sven Strickroth <email@cs-ware.de>
+# (c) Copyright 2003, 2004, 2024
 # Distributable under the terms of the GPL - see COPYING
 
 import sys
@@ -85,7 +86,7 @@ def spelling(args, overview, dict, dictfiles, spellCommand):
                 if overview != None:
                     for e in po.spellErrors:
                         ce = 0
-                        if overview.has_key(e): ce= overview[e]
+                        if e in overview: ce = overview[e]
                         overview[e] = ce + 1
                 else:
                     out.opentag('file', {'name': filename})
@@ -108,27 +109,27 @@ def interactiveSpelling(args, dict, dictfiles, spellCommand):
             po.spell(dict)
             if len(po.spellErrors) > 0:
                 for e in po.spellErrors:
-                    print 'Error: %s' % e
+                    print('Error: %s' % e)
                     ctxs = po.searchInMsgstr(e)
                     for line, message, context in ctxs:
-                        print '  message %d, line %d: %s' % (
-                            message, line, context)
-                    print 'a - add to current file (%s)' % filename
+                        print('  message %d, line %d: %s' % (
+                            message, line, context))
+                    print('a - add to current file (%s)' % filename)
                     if len(ctxs):
-                        print 'r - replace in current file with another word'
+                        print('r - replace in current file with another word')
                     d = 1
                     for dictfile in dictfiles:
-                        print '%d - add to dictionary %s' % (d, dictfile)
+                        print('%d - add to dictionary %s' % (d, dictfile))
                         d = d + 1
-                    print 'n - go to the next file'
+                    print('n - go to the next file')
                     x = raw_input('Enter your choice, enter to continue: ')
                     if x == 'n':
                         break
                     elif x == 'a':
                         if addSpellExtra(po, filename, e):
-                            print 'added word to file %s' % filename
+                            print('added word to file %s' % filename)
                         else:
-                            print 'error adding word to file %s' % filename
+                            print('error adding word to file %s' % filename)
                     elif len(ctxs) and x == 'r':
                         replace = raw_input('Enter replacement word: ')
                         for line, message, context in ctxs:
@@ -144,9 +145,9 @@ def interactiveSpelling(args, dict, dictfiles, spellCommand):
                                 po.data[message - 1] = (podata[0], podata[1],
                                                         podata[2], rrr,
                                                         podata[3])
-                                print 'replaced word in %s' % filename
+                                print('replaced word in %s' % filename)
                             else:
-                                print 'error replacing word in %s' % filename
+                                print('error replacing word in %s' % filename)
                     else:
                         dictchoice = 0
                         try:
@@ -158,7 +159,7 @@ def interactiveSpelling(args, dict, dictfiles, spellCommand):
                             dfile = open(chdict, 'a')
                             dfile.write('%s\n' % e)
                             dfile.close()
-                            print 'added to dictionary %s' % chdict
+                            print('added to dictionary %s' % chdict)
                             dict[e] = e
                     print
 
