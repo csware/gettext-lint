@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    paths-ignore:
+      - '.github/workflows/*.yml'
+      - '!.github/workflows/ci.yml'
+  pull_request:
+    paths-ignore:
+      - '.github/workflows/*.yml'
+      - '!.github/workflows/ci.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.9", "3.11", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gettext automake make
+      - name: Build
+        run: |
+          ./autogen.sh
+          make
+      - name: Check syntax
+        run: |
+          cd src
+          python -m py_compile POFileSpell
+          python -m py_compile POFileStatus
+          python -m py_compile POFileChecker
+          python -m py_compile POFileClean
+          python -m py_compile POFileConsistency
+          python -m py_compile POFileEquiv
+          python -m py_compile POFileFill
+          python -m py_compile POFileGlossary
+          python -m py_compile *.py
+      - name: Run tests
+        run: |
+          cd src/test
+          make all
