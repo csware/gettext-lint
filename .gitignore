@@ -1,0 +1,15 @@
+config.cache
+config.h
+config.h.in
+config.log
+config.status
+stamp-h
+stamp-h.in
+ABOUT-NLS
+configure
+Makefile.in
+Makefile
+aclocal.m4
+*-*.tar.gz
+*.spec
+autom4te.cache

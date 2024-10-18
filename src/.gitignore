@@ -1,0 +1,9 @@
+*.pyc
+/POFileChecker
+/POFileConsistency
+/POFileEquiv
+/POFileFill
+/POFileSpell
+/POFileStatus
+/POFileClean
+/POFileGlossary
